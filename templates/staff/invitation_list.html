@@ -1,0 +1,26 @@
+{% extends "staff/base.html" %}
+{% block title %}新規登録リンク{% endblock %}
+{% block content %}
+<h1>新規登録リンクの発行</h1>
+<p>ここで発行したリンクをお客様にお伝えすると、お客様自身が情報を入力して会員登録できます。1つのリンクは1回だけ使用できます。</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">＋ 新しい登録リンクを発行する</button>
+</form>
+
+<h2>発行済みのリンク（新しい順・最大50件）</h2>
+<table>
+  <tr><th>登録用URL</th><th>発行日時</th><th>状態</th><th>登録されたお客様</th></tr>
+  {% for inv in invitations %}
+  <tr>
+    <td>/register/{{ inv.token }}/</td>
+    <td>{{ inv.issued_at|date:"Y-m-d H:i" }}</td>
+    <td>{% if inv.used %}使用済み{% else %}未使用{% endif %}</td>
+    <td>{% if inv.created_customer %}{{ inv.created_customer.full_name }}{% else %}-{% endif %}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="4">まだ発行された招待はありません。</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

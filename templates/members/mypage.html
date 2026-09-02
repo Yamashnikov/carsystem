@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}マイページ{% endblock %}
+{% block content %}
+<h1>マイページ（{{ customer.member_id }} {{ customer.full_name }} 様）</h1>
+<p style="color:#888; font-size:0.9em;">
+  一度入力された項目は編集できません。空欄の項目のみ、下のフォームから入力できます。
+</p>
+
+<h2>顧客情報（基本情報）</h2>
+<table>
+  {% for row in customer_rows %}
+  <tr><th>{{ row.label }}</th><td>{{ row.value|default:"（未入力）" }}</td></tr>
+  {% endfor %}
+</table>
+{% if customer_form.fields %}
+<form method="post">
+  {% csrf_token %}
+  <input type="hidden" name="form_name" value="customer">
+  {% for field in customer_form %}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+  {% endfor %}
+  <button type="submit">この内容で更新する</button>
+</form>
+{% else %}
+<p class="locked">すべての項目が入力済みです。</p>
+{% endif %}
+
+<h2>ローン審査情報</h2>
+<table>
+  {% for row in screening_rows %}
+  <tr><th>{{ row.label }}</th><td>{{ row.value|default:"（未入力）" }}</td></tr>
+  {% endfor %}
+</table>
+{% if screening_form.fields %}
+<form method="post">
+  {% csrf_token %}
+  <input type="hidden" name="form_name" value="screening">
+  {% for field in screening_form %}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+  {% endfor %}
+  <button type="submit">この内容で更新する</button>
+</form>
+{% else %}
+<p class="locked">すべての項目が入力済みです。</p>
+{% endif %}
+
+<h2>現在使用中の車両情報</h2>
+<table>
+  {% for row in vehicle_rows %}
+  <tr><th>{{ row.label }}</th><td>{{ row.value|default:"（未入力）" }}</td></tr>
+  {% endfor %}
+</table>
+{% if vehicle_form.fields %}
+<form method="post">
+  {% csrf_token %}
+  <input type="hidden" name="form_name" value="vehicle">
+  {% for field in vehicle_form %}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+  {% endfor %}
+  <button type="submit">この内容で更新する</button>
+</form>
+{% else %}
+<p class="locked">すべての項目が入力済みです。</p>
+{% endif %}
+
+<p style="margin-top:3em; color:#888; font-size:0.85em;">
+  ※対応履歴・車両在庫・販売（取引）・買取・請求関連の情報は、会員ページからは閲覧できません。
+</p>
+{% endblock %}

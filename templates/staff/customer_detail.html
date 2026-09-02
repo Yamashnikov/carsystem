@@ -1,0 +1,30 @@
+{% extends "staff/base.html" %}
+{% block title %}{{ customer.full_name }} 様{% endblock %}
+{% block content %}
+<h1>{{ customer.full_name }} 様（会員ID: {{ customer.member_id|default:"未発行" }}）</h1>
+
+<h2>会員アカウント</h2>
+{% if account %}
+<p>発行済み（{% if account.must_change_password %}お客様は初回パスワード変更が未完了です{% else %}利用中{% endif %}）</p>
+{% else %}
+<p>まだ会員アカウントが発行されていません。</p>
+<form method="post" action="{% url 'staff:issue_account' customer.pk %}">
+  {% csrf_token %}
+  <button type="submit">会員ID・会員アカウントを発行する</button>
+</form>
+{% endif %}
+
+<h2>お客様情報の編集</h2>
+{% if form.errors %}<p style="color:#b00020;">入力内容に誤りがあります。赤字の項目をご確認ください。</p>{% endif %}
+<form method="post">
+  {% csrf_token %}
+  {% for field in form %}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+    {% if field.errors %}<p style="color:#b00020; font-size:0.85em;">{{ field.errors }}</p>{% endif %}
+  {% endfor %}
+  <button type="submit" name="save_customer">この内容で更新する</button>
+</form>
+
+<p style="margin-top:2em;"><a href="{% url 'staff:customer_list' %}">← 一覧に戻る</a></p>
+{% endblock %}

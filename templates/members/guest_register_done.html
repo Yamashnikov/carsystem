@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}登録完了{% endblock %}
+{% block content %}
+<h1>登録が完了しました</h1>
+<p>{{ customer.full_name }} 様、ご登録ありがとうございます。</p>
+<table>
+  <tr><th>会員ID</th><td>{{ customer.member_id }}</td></tr>
+  <tr><th>初回パスワード</th><td>{{ raw_otp }}</td></tr>
+</table>
+<p style="color:#888; font-size:0.9em;">
+  ※本番環境では、この情報はSMSでお客様の携帯電話に送信され、画面には表示しない想定です（開発確認用に画面表示しています）。
+</p>
+<p><a href="{% url 'members:login' %}">このままログインする</a></p>
+{% endblock %}

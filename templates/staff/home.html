@@ -1,0 +1,18 @@
+{% extends "staff/base.html" %}
+{% block title %}ホーム{% endblock %}
+{% block content %}
+<h1>業務メニュー</h1>
+<a class="big-link" href="{% url 'staff:customer_create' %}">
+  ＋ 新しいお客様を登録する
+</a>
+<a class="big-link" href="{% url 'staff:customer_list' %}">
+  📋 登録済みのお客様を確認・編集する（現在 {{ customer_count }} 件）
+</a>
+<a class="big-link" href="{% url 'staff:invitation_list' %}">
+  🔗 お客様自身に入力してもらう登録リンクを発行する
+</a>
+<p style="margin-top:2em; color:#888; font-size:0.9em;">
+  車両・販売（取引）・買取・ローンなど、より詳しい業務データを扱う場合は
+  <a href="/admin/">管理画面（詳細版）</a> をご利用ください。
+</p>
+{% endblock %}

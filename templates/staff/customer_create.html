@@ -1,0 +1,17 @@
+{% extends "staff/base.html" %}
+{% block title %}お客様の新規登録{% endblock %}
+{% block content %}
+<h1>お客様の新規登録</h1>
+<p>最低限の情報だけ入力してください。残りの項目は、後ほどお客様ご自身に会員ページから入力していただけます。</p>
+{% if form.errors %}<p style="color:#b00020;">入力内容に誤りがあります。赤字の項目をご確認ください。</p>{% endif %}
+<form method="post">
+  {% csrf_token %}
+  {% for field in form %}
+    <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span style="color:#b00020;">※必須</span>{% endif %}</label>
+    {{ field }}
+    {% if field.errors %}<p style="color:#b00020; font-size:0.85em;">{{ field.errors }}</p>{% endif %}
+  {% endfor %}
+  <button type="submit">この内容で登録する</button>
+  <a href="{% url 'staff:home' %}" class="btn btn-secondary" style="margin-left:8px;">キャンセル</a>
+</form>
+{% endblock %}
